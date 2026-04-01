@@ -1,233 +1,91 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NOVIAnews</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pornhub - sempek</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#111; color:#fff; font-family:Arial,Helvetica,sans-serif; }
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script> 
+header {
+    background:#000;
+    height:55px;
+    display:flex;
+    align-items:center;
+    padding:0 15px;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:100;
+}
 
-  <!-- React i ReactDOM -->
-  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.min.js"></script> 
-  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.min.js"></script> 
+.logo {
+    font-size:26px;
+    font-weight:bold;
+    letter-spacing:-1px;
+}
+.logo span.porn { color:#ff9900; }
+.logo span.hub { color:#fff; }
 
-  <!-- Babel - kompilacja JSX -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.22.9/babel.min.js"></script> 
+.player-container {
+    max-width:100%;
+    margin:65px 10px 20px;
+    background:#000;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 4px 15px rgba(0,0,0,0.6);
+}
 
-  <style>
-    body {
-      font-family: sans-serif;
-    }
-  </style>
+video {
+    width:100%;
+    height:auto;
+    max-height:55vh;
+    background:#000;
+    display:block;
+}
+
+.info {
+    background:#1a1a1a;
+    padding:15px 15px 20px;
+}
+
+.title {
+    font-size:20px;
+    line-height:1.3;
+    margin-bottom:8px;
+}
+
+.views {
+    color:#bbb;
+    font-size:14px;
+}
+
+@media (min-width:768px) {
+    .player-container { margin:70px auto; max-width:900px; }
+    video { max-height:70vh; }
+    .title { font-size:26px; }
+}
+</style>
 </head>
-<body class="min-h-screen bg-gray-50">
-  <div id="root"></div>
+<body>
 
-  <script type="text/babel">
+<header>
+    <div class="logo"><span class="porn">PORN</span><span class="hub">HUB</span></div>
+</header>
 
-    const { useState, useEffect } = React;
+<div class="player-container">
+    <video controls playsinline>
+        <source src="https://fake-video-url.com/sempek.mp4" type="video/mp4">
+        Twoja przeglądarka nie obsługuje filmu.
+    </video>
 
-    function App() {
-      const [activeCategory, setActiveCategory] = useState("wszystkie");
-      const [searchQuery, setSearchQuery] = useState("");
-      const [isScrolled, setIsScrolled] = useState(false);
+    <div class="info">
+        <h1 class="title">Nowa gwiazda porno Sempek rucha przerodnią siostre</h1>
+        <p class="views">699 420 wyświetleń • 1 kwietnia 2026</p>
+    </div>
+</div>
 
-      const newsData = [
-        {
-          id: 1,
-          title: "Karol Nawrocki wygrywa II turę wyborów prezydenckich",
-          content:
-            "Popierany przez PiS Karol Nawrocki zdobył 50,89 % głosów (10 606 877), pokonując Rafała Trzaskowskiego, który uzyskał 49,11 % (10 237 286). Frekwencja wyniosła rekordowe 71,63 %.",
-          category: "polityka",
-          image: "https://picsum.photos/seed/politics/600/400", 
-          date: "2025-06-02",
-        },
-        {
-          id: 2,
-          title: "Nowe technologie AI zmieniają rynek pracy",
-          content:
-            "Rozwój sztucznej inteligencji przyspiesza transformację rynku pracy. Ekspertowie ostrzegają o konieczności reskillingu pracowników.",
-          category: "technologia",
-          image: "https://picsum.photos/seed/ai/600/400", 
-          date: "2025-03-28",
-        },
-        {
-          id: 3,
-          title: "Polski film zdobywa nagrody za granicą",
-          content:
-            "Film reżyserski zdobył główną nagrodę na międzynarodowym festiwalu filmowym w Cannes. Krytycy chwalą narrację i zdjęcia.",
-          category: "kultura",
-          image: "https://picsum.photos/seed/film/600/400", 
-          date: "2025-03-25",
-        },
-        {
-          id: 4,
-          title: "Katastrofa lotnicza w Azji Południowo-Wschodniej",
-          content:
-            "Samolot pasażerski rozbił się podczas deszczu monsunowego. Ratownicy pracują na miejscu, a liczba ofiar rośnie.",
-          category: "świat",
-          image: "https://picsum.photos/seed/plane/600/400", 
-          date: "2025-03-22",
-        },
-        {
-          id: 5,
-          title: "Premiera nowej gry mobilnej powoduje sensację",
-          content:
-            "Studio GameDev wydało najnowszą grę mobilną, która już teraz cieszy się ogromnym zainteresowaniem fanów RPG.",
-          category: "technologia",
-          image: "https://picsum.photos/seed/game/600/400", 
-          date: "2025-03-20",
-        },
-        {
-          id: 6,
-          title: "Zwiększenie budżetu na edukację w Polsce",
-          content:
-            "Rząd ogłosił nowy plan inwestycji w edukację. Nowe środki mają trafić na rozwój technologii w szkołach i płace nauczycieli.",
-          category: "edukacja",
-          image: "https://picsum.photos/seed/school/600/400", 
-          date: "2025-03-18",
-        },
-        {
-          id: 7,
-          title: "17-letnia Polka idzie jak burza. Ma już półfinał",
-          content:
-            "Inka Wawrzkiewicz jest objawieniem turnieju Rokitki Park Open, który zainaugurował tegoroczny cykl Lotto PZT Polish Tour. 17-letnia Polka awansowała w piątek do półfinału singla, a w deblu wspólnie ze swoją rodaczką Nadią Affelt jest już w finale.",
-          category: "sport",
-          image: "https://picsum.photos/seed/sport/600/400", 
-          date: "2025-06-13",
-        },
-        {
-          id: 8,
-          title: "Premiera najnowszej gry RPG powoduje sensację na rynku gamingowym",
-          content:
-            "Nowa gra od firmy GameDev Studio zdobywa entuzjazm fanów dzięki realistycznej grafice i rozbudowanej fabule.",
-          category: "gaming",
-          image: "https://picsum.photos/seed/gaming/600/400", 
-          date: "2025-05-20",
-        },
-        {
-          id: 9,
-          title: "Premiera najnowszej gry RPG powoduje sensację na rynku gamingowym",
-          content:
-            "Nowa gra od firmy GameDev Studio zdobywa entuzjazm fanów dzięki realistycznej grafice i rozbudowanej fabule.",
-          category: "gaming",
-          image: "https://picsum.photos/seed/gaming/600/400", 
-          date: "2025-06-20",
-        },
-
-      ];
-
-      useEffect(() => {
-        const handleScroll = () => {
-          setIsScrolled(window.scrollY > 50);
-        };
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-      }, []);
-
-      const filteredNews = newsData.filter(
-        (news) =>
-          (activeCategory === "wszystkie" || news.category === activeCategory) &&
-          news.title.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-
-      const Logo = () => (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M2 3h20l-3 9H4L2 3zm2 5h16M6 17h12a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2z" />
-        </svg>
-      );
-
-      return (
-        <div className="min-h-screen bg-gray-50">
-          {/* Nagłówek */}
-          <header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-              isScrolled ? "bg-white shadow-md py-2" : "bg-gradient-to-r from-blue-600 to-purple-600 py-4 text-white"
-            }`}
-          >
-            <div className="container mx-auto px-4 flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <Logo />
-                <h1 className="text-xl font-bold">NOVIA<span className="hidden sm:inline">news</span></h1>
-              </div>
-
-              <nav className="hidden md:flex space-x-6">
-                <button onClick={() => setActiveCategory("wszystkie")} className={`font-medium hover:text-blue-300 transition-colors ${activeCategory === "wszystkie" && "text-blue-200 font-semibold"}`}>Wszystkie</button>
-                <button onClick={() => setActiveCategory("polityka")} className={`font-medium hover:text-blue-300 transition-colors ${activeCategory === "polityka" && "text-blue-200 font-semibold"}`}>Polityka</button>
-                <button onClick={() => setActiveCategory("technologia")} className={`font-medium hover:text-blue-300 transition-colors ${activeCategory === "technologia" && "text-blue-200 font-semibold"}`}>Technologia</button>
-                <button onClick={() => setActiveCategory("kultura")} className={`font-medium hover:text-blue-300 transition-colors ${activeCategory === "kultura" && "text-blue-200 font-semibold"}`}>Kultura</button>
-                <button onClick={() => setActiveCategory("świat")} className={`font-medium hover:text-blue-300 transition-colors ${activeCategory === "świat" && "text-blue-200 font-semibold"}`}>Świat</button>
-                <button onClick={() => setActiveCategory("edukacja")} className={`font-medium hover:text-blue-300 transition-colors ${activeCategory === "edukacja" && "text-blue-200 font-semibold"}`}>Edukacja</button>
-                <button onClick={() => setActiveCategory("sport")} className={`font-medium hover:text-blue-300 transition-colors ${activeCategory === "sport" && "text-blue-200 font-semibold"}`}>Sport</button>
-                <button onClick={() => setActiveCategory("gaming")} className={`font-medium hover:text-blue-300 transition-colors ${activeCategory === "gaming" && "text-blue-200 font-semibold"}`}>Gaming</button>
-              </nav>
-
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Szukaj..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className={`px-3 py-1 rounded-full focus:outline-none ${
-                    isScrolled ? "text-gray-800 border border-gray-300" : "text-white placeholder-white bg-transparent border border-white"
-                  }`}
-                />
-              </div>
-            </div>
-          </header>
-
-          {/* Sekcja główna */}
-          <main className="pt-24 pb-12">
-            <div className="container mx-auto px-4">
-              <h2 className="text-3xl font-bold mb-8 text-gray-800">Najnowsze wiadomości</h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredNews.length > 0 ? (
-                  filteredNews.map((news) => (
-                    <article key={news.id} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
-                      <img src={news.image} alt={news.title} className="w-full h-48 object-cover" />
-                      <div className="p-4">
-                        <div className="text-xs text-gray-500 mb-1">{news.date}</div>
-                        <h3 className="text-lg font-semibold mb-2 line-clamp-2">{news.title}</h3>
-                        <p className="text-sm text-gray-600 line-clamp-3">{news.content}</p>
-                        <div className="mt-3">
-                          <span className="inline-block px-2 py-1 text-xs font-semibold text-white bg-blue-600 rounded-full">
-                            {news.category.toUpperCase()}
-                          </span>
-                        </div>
-                      </div>
-                    </article>
-                  ))
-                ) : (
-                  <div className="col-span-full text-center py-12 text-gray-500">
-                    Brak wyników dla Twojego zapytania.
-                  </div>
-                )}
-              </div>
-            </div>
-          </main>
-
-          {/* Stopka */}
-          <footer className="bg-gray-800 text-white py-8">
-            <div className="container mx-auto px-4">
-              <div className="flex flex-col md:flex-row justify-between items-center">
-                <div className="flex items-center space-x-2 mb-4 md:mb-0">
-                  <Logo />
-                  <span className="text-lg font-bold">NOVIAnews</span>
-                </div>
-                <div className="text-sm text-gray-400">
-                  © 2025 NOVIAnews. Wszelkie prawa zastrzeżone.
-                </div>
-              </div>
-            </div>
-          </footer>
-        </div>
-      );
-    }
-
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
-  </script>
 </body>
 </html>
